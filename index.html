@@ -52,7 +52,29 @@
         auto-rotate
         camera-controls
         alt="A 3D model"
-      ></model-viewer>
+        seamless-poster
+      >
+        <div
+          id="ar-button"
+          slot="ar-button"
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #007bff;
+            border-radius: 50%;
+            cursor: pointer;
+          "
+        >
+          <img
+            src="https://modelviewer.dev/shared-assets/icons/hand.png"
+            alt="AR"
+            style="width: 24px; height: 24px"
+          />
+        </div>
+      </model-viewer>
     </div>
     <div id="object-list">
       <button class="object-button" onclick="swapModel('model1.glb')">
@@ -67,9 +89,26 @@
     </div>
 
     <script>
+      let arSession = null;
+
+      document
+        .querySelector("model-viewer")
+        .addEventListener("ar-status", (event) => {
+          if (event.detail.status === "session-started") {
+            arSession = event.target;
+          } else if (event.detail.status === "not-presenting") {
+            arSession = null;
+          }
+        });
+
       function swapModel(modelUrl) {
         const modelViewer = document.getElementById("model-viewer");
         modelViewer.src = modelUrl;
+
+        if (arSession) {
+          // If in AR mode, update the model in the AR session as well
+          arSession.updateFraming();
+        }
       }
     </script>
   </body>
