@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AR Model Viewer</title>
+    <script
+      type="module"
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+    ></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+      #model-container {
+        width: 100%;
+        max-width: 600px;
+      }
+      #object-list {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+      }
+      .object-button {
+        padding: 10px;
+        margin: 0 5px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+      }
+      .object-button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="model-container">
+      <model-viewer
+        id="model-viewer"
+        src="model1.glb"
+        ar
+        ar-modes="scene-viewer quick-look webxr"
+        environment-image="neutral"
+        auto-rotate
+        camera-controls
+        alt="A 3D model"
+      ></model-viewer>
+    </div>
+    <div id="object-list">
+      <button class="object-button" onclick="swapModel('model1.glb')">
+        Object 1
+      </button>
+      <button class="object-button" onclick="swapModel('model2.glb')">
+        Object 2
+      </button>
+      <button class="object-button" onclick="swapModel('model3.glb')">
+        Object 3
+      </button>
+    </div>
+
+    <script>
+      function swapModel(modelUrl) {
+        const modelViewer = document.getElementById("model-viewer");
+        modelViewer.src = modelUrl;
+      }
+    </script>
+  </body>
+</html>
